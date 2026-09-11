@@ -169,13 +169,76 @@ def analyze_article(filepath):
     if not has_h2:
         results["violations"].append("Missing H2 headings for logical content outlining.")
 
+    # 7. Frontmatter & Meta Tags Check (Adopted from santifer-irepair & Complete-SEO)
+    fm_match = re.search(r"^---\s*\n(.*?)\n---\s*\n", content, re.DOTALL)
+    fm_pass = True
+    fm_details = []
+    if fm_match:
+        fm_text = fm_match.group(1)
+        # Check meta_title
+        title_m = re.search(r"meta_title:\s*['\"]?(.*?)['\"]?\s*$", fm_text, re.MULTILINE)
+        if title_m:
+            title_len = len(title_m.group(1).strip())
+            if 40 <= title_len <= 65:
+                fm_details.append(f"meta_title length ({title_len} chars) optimal")
+            else:
+                fm_pass = False
+                results["violations"].append(f"meta_title length ({title_len} chars) out of range (optimal: 40-65 chars).")
+        else:
+            fm_pass = False
+            results["violations"].append("Missing 'meta_title' in YAML frontmatter.")
+
+        # Check meta_description
+        desc_m = re.search(r"meta_description:\s*['\"]?(.*?)['\"]?\s*$", fm_text, re.MULTILINE)
+        if desc_m:
+            desc_len = len(desc_m.group(1).strip())
+            if 120 <= desc_len <= 165:
+                fm_details.append(f"meta_description length ({desc_len} chars) optimal")
+            else:
+                fm_pass = False
+                results["violations"].append(f"meta_description length ({desc_len} chars) out of range (optimal: 120-165 chars).")
+        else:
+            fm_pass = False
+            results["violations"].append("Missing 'meta_description' in YAML frontmatter.")
+
+        # Check primary_keyword
+        pk_m = re.search(r"primary_keyword:\s*['\"]?(.*?)['\"]?\s*$", fm_text, re.MULTILINE)
+        if pk_m:
+            pk = pk_m.group(1).strip().lower()
+            if pk and pk in content_lower:
+                fm_details.append(f"primary_keyword '{pk}' verified in body")
+            else:
+                fm_pass = False
+                results["violations"].append(f"primary_keyword '{pk}' not found in article body.")
+    else:
+        # Frontmatter is optional for plain markdown, but highly recommended
+        fm_pass = True
+        fm_details.append("No frontmatter present (plain markdown format)")
+
+    results["checks"]["frontmatter_metadata"] = {
+        "pass": fm_pass,
+        "detail": "; ".join(fm_details) if fm_details else "Frontmatter verified"
+    }
+
+    # 8. Table of Contents / Anchor Jump Navigation Check (Complete-SEO pattern)
+    has_toc = bool(re.search(r"\[.+\]\(#[a-z0-9_-]+\)", content))
+    results["checks"]["toc_anchors"] = {
+        "pass": has_toc,
+        "detail": "Table of Contents with jump anchors detected" if has_toc else "Missing quick-jump Table of Contents anchors"
+    }
+    # Note: TOC missing is a warning/best-practice, we enforce it for top ranking
+    if not has_toc:
+        results["violations"].append("Recommendation: Add a quick-jump Table of Contents (TOC) for Google SiteLinks.")
+
     # Overall verdict
     results["overall_pass"] = (
         results["checks"]["length"]["pass"] and
         results["checks"]["ai_fluff"]["pass"] and
         results["checks"]["data_table"]["pass"] and
         results["checks"]["schema_markup"]["pass"] and
-        results["checks"]["headings"]["pass"]
+        results["checks"]["headings"]["pass"] and
+        results["checks"]["frontmatter_metadata"]["pass"] and
+        results["checks"]["toc_anchors"]["pass"]
     )
 
     return results

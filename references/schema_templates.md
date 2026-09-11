@@ -118,3 +118,42 @@
 }
 </script>
 ```
+
+---
+
+## 4. BreadcrumbList Schema（展示 Google 搜索层级面包屑路径，大幅提升 CTR）
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://yourdomain.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Golf Cart Accessories",
+      "item": "https://yourdomain.com/collections/golf-cart-accessories"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Seat Covers",
+      "item": "https://yourdomain.com/collections/golf-cart-seat-covers"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Evolution D5 Fitment Guide",
+      "item": "https://yourdomain.com/guides/evolution-d5-seat-covers-guide"
+    }
+  ]
+}
+</script>
+```
