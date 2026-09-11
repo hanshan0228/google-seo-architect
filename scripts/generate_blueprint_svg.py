@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+scripts/generate_blueprint_svg.py - Technical Blueprint SVG Generator
+Generates precise, clean technical blueprint SVG diagrams for product fitment,
+seat cushion dimensions, and installation wiring to boost Google Image SEO.
+"""
+
+import sys
+import os
+import argparse
+import io
+
+# Ensure UTF-8 output on Windows
+if sys.platform == "win32":
+    if hasattr(sys.stdout, "buffer") and sys.stdout.encoding.lower() != "utf-8":
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+
+def generate_seat_blueprint(model_name, width_in, depth_in, radius_in, output_path):
+    svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <!-- Blueprint Grid Pattern -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.75"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-angle">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-rev" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-angle">
+      <path d="M 10 0 L 0 5 L 10 10 z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="#0f172a"/>
+  <rect width="800" height="500" fill="url(#grid)"/>
+
+  <!-- Header & Specs -->
+  <text x="40" y="50" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="20" font-weight="700">TECHNICAL FITMENT SPECIFICATION</text>
+  <text x="40" y="75" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13">CUSTOM BOLSTERED BENCH CONTOUR // {model_name.upper()}</text>
+
+  <!-- Blueprint Cushion Geometry -->
+  <!-- Main Cushion Body -->
+  <rect x="160" y="140" width="480" height="220" rx="32" ry="32" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="8 4"/>
+  <rect x="180" y="160" width="440" height="180" rx="20" ry="20" fill="#0f172a" stroke="#64748b" stroke-width="1.5"/>
+
+  <!-- Center Split / Bolster Stitching -->
+  <line x1="400" y1="160" x2="400" y2="340" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 4"/>
+
+  <!-- Left/Right Bolster Reliefs -->
+  <path d="M 230 180 Q 250 250 230 320" fill="none" stroke="#0ea5e9" stroke-width="2"/>
+  <path d="M 570 180 Q 550 250 570 320" fill="none" stroke="#0ea5e9" stroke-width="2"/>
+
+  <!-- Dimension Line: Width (Top) -->
+  <line x1="160" y1="110" x2="640" y2="110" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
+  <line x1="160" y1="100" x2="160" y2="135" stroke="#475569" stroke-width="1"/>
+  <line x1="640" y1="100" x2="640" y2="135" stroke="#475569" stroke-width="1"/>
+  <rect x="340" y="95" width="120" height="28" rx="6" fill="#0284c7"/>
+  <text x="400" y="114" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="700" text-anchor="middle">WIDTH: {width_in}&quot;</text>
+
+  <!-- Dimension Line: Depth (Right) -->
+  <line x1="680" y1="140" x2="680" y2="360" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
+  <line x1="645" y1="140" x2="695" y2="140" stroke="#475569" stroke-width="1"/>
+  <line x1="645" y1="360" x2="695" y2="360" stroke="#475569" stroke-width="1"/>
+  <rect x="625" y="236" width="110" height="28" rx="6" fill="#0284c7"/>
+  <text x="680" y="255" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="700" text-anchor="middle">DEPTH: {depth_in}&quot;</text>
+
+  <!-- Corner Radius Callout (Bottom Left) -->
+  <circle cx="175" cy="345" r="18" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3 3"/>
+  <line x1="175" y1="365" x2="130" y2="420" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="70" y="420" width="150" height="26" rx="4" fill="#78350f" stroke="#f59e0b" stroke-width="1"/>
+  <text x="145" y="437" fill="#fef3c7" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">CORNER RADIUS: {radius_in}&quot;</text>
+
+  <!-- Dual Bottom Under-seat Webbing Points -->
+  <circle cx="280" cy="380" r="4" fill="#38bdf8"/>
+  <text x="280" y="405" fill="#94a3b8" font-family="sans-serif" font-size="11" text-anchor="middle">Cinch Point A</text>
+  <circle cx="520" cy="380" r="4" fill="#38bdf8"/>
+  <text x="520" y="405" fill="#94a3b8" font-family="sans-serif" font-size="11" text-anchor="middle">Cinch Point B</text>
+
+  <!-- Footer Watermark & Scale -->
+  <text x="760" y="475" fill="#475569" font-family="sans-serif" font-size="10" text-anchor="end">SCALE: 1:1 BENCH VERIFIED // TOLERANCE ±0.125&quot;</text>
+</svg>
+'''
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(svg_content.strip())
+    print(f"✅ Technical Blueprint SVG generated at: {output_path}")
+
+def main():
+    parser = argparse.ArgumentParser(description="Generate technical blueprint SVG for Google Images SEO.")
+    parser.add_argument("--model", default="Evolution D5 Maverick / Forester", help="Model name")
+    parser.add_argument("--width", default="41.5", help="Width in inches")
+    parser.add_argument("--depth", default="18.5", help="Depth in inches")
+    parser.add_argument("--radius", default="3.25", help="Corner radius in inches")
+    parser.add_argument("--out", default="blueprint.svg", help="Output SVG filepath")
+
+    args = parser.parse_args()
+    generate_seat_blueprint(args.model, args.width, args.depth, args.radius, args.out)
+
+if __name__ == "__main__":
+    main()

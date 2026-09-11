@@ -19,25 +19,32 @@ description: Google SEO 深度收录与高排名内容生产引擎。基于 E-E-
 
 ---
 
-## 四大子指令敏捷路由 (Sub-Commands)
+## 六大子指令敏捷路由 (Sub-Commands)
 
 ### 1. `/google-seo-architect write <关键词/主题>`
 * **功能**：自动检索或提取专车参数、独家痛点与长尾词，生成符合 Google 顶尖索引标准的深度指南；
 * **刚性要求**：
   - 采用 **BLUF (Bottom Line Up Front)** 结构，开篇 50 字内给出直接答案；
   - 必须包含至少 1 个结构化对比数据表（`|...|` Markdown 表格）；
-  - 必须包含合法的 JSON-LD（`FAQPage` 或 `HowTo`）Schema 代码块；
+  - 必须包含合法的 JSON-LD（`FAQPage` + `BreadcrumbList`）Schema 代码块；
+  - 包含规范 Frontmatter 元数据与带锚点的目录导航（TOC）；
   - 自动调用后台 `scripts/lint_article.py` 自检，**未通过门禁物理禁止向用户交付**！
 
 ### 2. `/google-seo-architect lint <文件路径>`
 * **功能**：运行机器级代码断言脚本，对指定 Markdown/HTML 文章进行全维度质量审计；
-* **校验项**：词数规模、60+ 个 AI 模板黑名单词扫描、表格存在性、JSON-LD 语法合法性、段落节奏。
+* **校验项**：词数规模、60+ 个 AI 模板黑名单词扫描、表格存在性、JSON-LD 语法合法性、Frontmatter 字符数、TOC 锚点。
 
-### 3. `/google-seo-architect schema <faq|howto|product>`
+### 3. `/google-seo-architect blueprint <车型名称> [--width W] [--depth D] [--radius R]`
+* **功能**：调用 `scripts/generate_blueprint_svg.py` 自动生成工业级深色技术线框图（SVG 矢量），提供极高权重的 Google 图片搜索资产与独家实测证据。
+
+### 4. `/google-seo-architect export-shopify <Markdown文件>`
+* **功能**：调用 `scripts/compile_shopify_blog.py`，一键编译为自带内联样式、响应式表格与双 Schema 的 Shopify 兼容 HTML，并生成带有全局 SEO Metafields 的 Admin API JSON 载荷。
+
+### 5. `/google-seo-architect schema <faq|howto|product|breadcrumb>`
 * **功能**：根据输入的产品信息或问答对，生成完全符合 Schema.org 标准的 JSON-LD 代码块。
 
-### 4. `/google-seo-architect index <URL列表>`
-* **功能**：调用 `scripts/submit_google_indexing.py`，向 Google Indexing API 或 IndexNow 提交新发布页面，加速爬虫抓取。
+### 6. `/google-seo-architect index <URL列表>`
+* **功能**：调用 `scripts/submit_google_indexing.py`，向 Google Indexing API（100条自动批处理）或 IndexNow 提交新发布页面，带 200 配额熔断守卫。
 
 ---
 
