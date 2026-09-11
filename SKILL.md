@@ -54,11 +54,23 @@ description: Google SEO 深度收录与高排名内容生产引擎。基于 E-E-
 ════════════════════════════════════════════════════════════════════════════════
 【Google SEO Architect 机器级硬门禁】
 Gate 1: 绝对零 AI 模板词 (Zero Banned Words - 严格遵循 ai_fluff_blacklist.md)
-Gate 2: 绝对信息增量 (Information Gain - 必须包含多维实测对比数据表)
-Gate 3: 实体结构化标记 (Valid JSON-LD Schema - 必须包含可解析的 FAQ/HowTo)
+Gate 2: 绝对信息增量 (Information Gain - 必须包含多维实测对比数据表与SVG线框图)
+Gate 3: 实体结构化标记 (Valid JSON-LD Schema - 必须包含可解析的 FAQ/Breadcrumb)
 Gate 4: 交付前静默自检 (Pre-Delivery Self-Lint - 必须经 lint_article.py 返回 PASS)
 ════════════════════════════════════════════════════════════════════════════════
 ```
+
+---
+
+## 谷歌官方需求验证四阶标准 (Google Verification Standards)
+
+> 详见底层完整标准文档：`references/google_verification_standards.md`
+
+每篇交付的文章必须满足以下**四阶段完整闭环验证**：
+1. **阶段一（本地硬门禁）**：运行 `lint_article.py`，确保 Meta 字符数（Title 45-65, Desc 120-165）、TOC 锚点、表格、Schema、零 AI 八股词 100% PASS；
+2. **阶段二（谷歌官方测试）**：通过 **Google Rich Results Test**（`search.google.com/test/rich-results`），成功点亮 `FAQ` 与 `Breadcrumbs` 绿色有效卡片；
+3. **阶段三（GSC 实盘抓取）**：在 Google Search Console 通过 Live URL 测试，最终收录状态必须直接进入 **`Indexed (已编入索引)`**，坚决破除 `Crawled - currently not indexed` 魔咒；
+4. **阶段四（SERP 真实回测）**：上线 72 小时后，通过 `site:` 指令与主词搜索，验证搜索结果下方是否成功展现展开式问答折叠栏与 SiteLinks 子链。
 
 ---
 

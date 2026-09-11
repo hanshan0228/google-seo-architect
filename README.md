@@ -18,8 +18,9 @@
    - 支持无秘钥测试模拟（Dry-Run）。
 
 3. **标准知识库 (`references/`)**：
+   - `google_verification_standards.md`：谷歌需求符合度四阶验收标准（本地硬门禁、Rich Results Test、GSC 实盘、SERP 回测）；
    - `ai_fluff_blacklist.md`：AI 八股黑名单；
-   - `schema_templates.md`：FAQPage, HowTo, Product 规范结构化数据模板；
+   - `schema_templates.md`：FAQPage, BreadcrumbList, HowTo, Product 规范结构化数据模板；
    - `silo_linking_blueprint.md`：Silo 拓扑内链设计蓝图。
 
 ---
