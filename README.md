@@ -36,3 +36,15 @@ python scripts/lint_article.py path/to/article.md
 ```bash
 python scripts/submit_google_indexing.py --urls https://yoursite.com/guides/evolution-d5-guide --dry-run
 ```
+
+---
+
+## 生产级实战案例 / Production References
+
+本套收录门禁与 Silo 拓扑模型已在以下开源与出海知识库项目中落地实践：
+
+- **[Just My Socks Guide (跨境网络知识库与 SEO 拓扑实践)](https://github.com/justmysocks-guide)**
+  - 核心主站：[justmysocks-guide/.github](https://github.com/justmysocks-guide/.github) (一级组织根域名借权，双语 E-E-A-T 实体落地页与结构化痛点解答)
+  - 测速诊断工具：[jms-speedtest](https://github.com/justmysocks-guide/jms-speedtest) (Engineering-as-Marketing 实战，网络延迟与 AI 解锁体检)
+  - 智能分流规则集：[clash-rules](https://github.com/justmysocks-guide/clash-rules) (Clash / Sing-box 精准分流规则提供者)
+
